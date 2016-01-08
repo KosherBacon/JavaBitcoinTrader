@@ -29,14 +29,16 @@ import eu.verdelhan.ta4j.indicators.oscillators.StochasticOscillatorKIndicator;
 import eu.verdelhan.ta4j.indicators.simple.ClosePriceIndicator;
 import eu.verdelhan.ta4j.indicators.trackers.*;
 import eu.verdelhan.ta4j.trading.rules.*;
+import org.bouncycastle.asn1.cms.Time;
 import org.jetbrains.annotations.Contract;
+import org.jooq.lambda.tuple.Tuple2;
 
 /**
  * Created by jkahn on 12/22/15.
  *
  * @author Joshua Kahn
  */
-public class BasicStrategy {
+public class BasicStrategy extends Strategy {
 
     /**
      * The number of ticks needed for the strategy to be fully functional.
@@ -53,16 +55,24 @@ public class BasicStrategy {
     private static final int RSI_UPPER = 95;
     private static final int RSI_LOWER = 5;
 
+    public BasicStrategy(TimeSeries series) {
+        this(buildStrategy(series));
+    }
+
+    private BasicStrategy(Tuple2<Rule, Rule> rules) {
+        super(rules.v1(), rules.v2());
+    }
+
     /**
      * Build the {@link eu.verdelhan.ta4j.Strategy Strategy} to use for
      * trading and backtesting.
      *
      * @param series
      * {@link eu.verdelhan.ta4j.TimeSeries TimeSeries} to use when building the {@link eu.verdelhan.ta4j.Strategy Strategy}
-     * @return the built {@link eu.verdelhan.ta4j.Strategy Strategy}.
+     * @return the rules to build the {@link eu.verdelhan.ta4j.Strategy Strategy}.
      */
     @Contract("null -> fail")
-    public static Strategy buildStrategy(TimeSeries series) {
+    private static Tuple2<Rule, Rule> buildStrategy(TimeSeries series) {
         if (series == null) {
             throw new IllegalArgumentException("Series cannot be null");
         }
@@ -127,7 +137,7 @@ public class BasicStrategy {
                 .or(new StopGainRule(closePrice, Decimal.valueOf(15))); //
         // Take profits and run
 
-        return new Strategy(entryRule, exitRule);
+        return new Tuple2<Rule, Rule>(entryRule, exitRule);
     }
 
 }

@@ -212,7 +212,7 @@ public class BitfinexTrader implements TickListener {
         }
 
         if (strategy == null) {
-            strategy = BasicStrategy.buildStrategy(timeSeries);
+            strategy = new BasicStrategy(timeSeries);
         }
 
         // There's a new tick

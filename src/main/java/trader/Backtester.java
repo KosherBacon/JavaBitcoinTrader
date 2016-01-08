@@ -39,21 +39,21 @@ public class Backtester {
 
     private static BacktestResult backtestBitstamp() {
         TimeSeries series = BacktestLoader.loadSeries("bitstampUSD.csv");
-        Strategy strategy = BasicStrategy.buildStrategy(series);
+        Strategy strategy = new BasicStrategy(series);
 
         return new BacktestResult(series, 0.0025D, 0, strategy).test();
     }
 
     private static BacktestResult backtestBTCE() {
         TimeSeries series = BacktestLoader.loadSeries("btceUSD.csv");
-        Strategy strategy = BasicStrategy.buildStrategy(series);
+        Strategy strategy = new BasicStrategy(series);
 
         return new BacktestResult(series, 0.002D, 0, strategy).test();
     }
 
     private static BacktestResult backtestBitfinex() {
         TimeSeries series = BacktestLoader.loadSeries("bitfinexUSD.csv");
-        Strategy strategy = BasicStrategy.buildStrategy(series);
+        Strategy strategy = new BasicStrategy(series);
 
         return new BacktestResult(series, 0.002D, 0, strategy).test();
     }
