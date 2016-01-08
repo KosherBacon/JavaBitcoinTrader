@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2015 Joshua Kahn
+ * Copyright (c) 2015 - 2016 Joshua Kahn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,6 @@ import eu.verdelhan.ta4j.indicators.oscillators.StochasticOscillatorKIndicator;
 import eu.verdelhan.ta4j.indicators.simple.ClosePriceIndicator;
 import eu.verdelhan.ta4j.indicators.trackers.*;
 import eu.verdelhan.ta4j.trading.rules.*;
-import org.bouncycastle.asn1.cms.Time;
 import org.jetbrains.annotations.Contract;
 import org.jooq.lambda.tuple.Tuple2;
 
@@ -132,12 +131,12 @@ public class BasicStrategy extends Strategy {
 
         Rule exitRule = new OrRule(macdExit, rsiExit)
                 .or(soldiersRule)
-                .or(new StopLossRule(closePrice, Decimal.valueOf(5))) //
+                .or(new StopLossRule(closePrice, Decimal.valueOf(15))) //
                 // Protect against severe losses
-                .or(new StopGainRule(closePrice, Decimal.valueOf(15))); //
+                .or(new StopGainRule(closePrice, Decimal.valueOf(10))); //
         // Take profits and run
 
-        return new Tuple2<Rule, Rule>(entryRule, exitRule);
+        return new Tuple2<>(entryRule, exitRule);
     }
 
 }

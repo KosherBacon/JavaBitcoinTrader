@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2015 Joshua Kahn
+ * Copyright (c) 2015 - 2016 Joshua Kahn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  */
 public class BacktestLoader {
 
-    private static final int SECONDS_PER_TICK = 60;
+    private static final int SECONDS_PER_TICK = 120;
 
     public static TimeSeries loadSeries(String fileName) {
 

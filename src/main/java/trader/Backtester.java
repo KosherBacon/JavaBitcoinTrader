@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2015 Joshua Kahn
+ * Copyright (c) 2015 - 2016 Joshua Kahn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,7 @@ import eu.verdelhan.ta4j.TimeSeries;
 import trader.exchanges.backtest.BacktestLoader;
 import trader.exchanges.backtest.BacktestResult;
 import trader.strategies.BasicStrategy;
+import trader.strategies.MomentumStrategy;
 
 /**
  * Created by jkahn on 12/21/15.
@@ -97,14 +98,14 @@ public class Backtester {
     }
 
     public static void main(String args[]) {
-        BacktestResult btceResult = backtestBTCE();
-        printBackTestResults("BTCE", btceResult.getTimeSeries(), btceResult
-                .getStrategy());
-        System.out.println();
-        BacktestResult bitstampResult = backtestBitstamp();
-        printBackTestResults("Bitstamp", bitstampResult.getTimeSeries(),
-                bitstampResult.getStrategy());
-        System.out.println();
+//        BacktestResult btceResult = backtestBTCE();
+//        printBackTestResults("BTCE", btceResult.getTimeSeries(), btceResult
+//                .getStrategy());
+//        System.out.println();
+//        BacktestResult bitstampResult = backtestBitstamp();
+//        printBackTestResults("Bitstamp", bitstampResult.getTimeSeries(),
+//                bitstampResult.getStrategy());
+//        System.out.println();
         BacktestResult bitfinexResult = backtestBitfinex();
         printBackTestResults("Bitfinex", bitfinexResult.getTimeSeries(),
                 bitfinexResult.getStrategy());
