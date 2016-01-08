@@ -1,4 +1,4 @@
-package trader.Indicators;
+package trader.indicators;
 
 import eu.verdelhan.ta4j.Decimal;
 import eu.verdelhan.ta4j.Indicator;
