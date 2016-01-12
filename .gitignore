@@ -9,6 +9,9 @@
 *.iml
 .idea/
 
+# Exchange Configuration (for obvious reasons) #
+src/main/resources/my_config.cfg
+
 # Logs #
 log/
 

@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2015 - 2016 Joshua Kahn
+ * Copyright (c) 2015-2016 Joshua Kahn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
+import org.jooq.lambda.tuple.Tuple2;
 
 import java.io.IOException;
 
@@ -43,8 +44,11 @@ public class BitfinexUtils {
 
         ExchangeSpecification bfxSpec = bfx.getDefaultExchangeSpecification();
 
-        bfxSpec.setApiKey("");
-        bfxSpec.setSecretKey("");
+        Tuple2<String, String> apiPair = ConfigReader.getInstance()
+                .getAPIKeys("bitfinex");
+
+        bfxSpec.setApiKey(apiPair.v1());
+        bfxSpec.setSecretKey(apiPair.v2());
 
         bfx.applySpecification(bfxSpec);
 
