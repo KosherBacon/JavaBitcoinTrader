@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  */
 public class BacktestLoader {
 
-    private static final int SECONDS_PER_TICK = 120;
+    private static final int SECONDS_PER_TICK = 300;
 
     public static TimeSeries loadSeries(String fileName) {
 
@@ -130,6 +130,11 @@ public class BacktestLoader {
         return emptyTicks;
     }
 
+    /**
+     * Remove ticks that have no trades.
+     *
+     * @param ticks the list to remove empty ticks from.
+     */
     private static void removeEmptyTicks(List<Tick> ticks) {
         for (int i = ticks.size() - 1; i >= 0; i--) {
             if (ticks.get(i).getTrades() == 0) {
