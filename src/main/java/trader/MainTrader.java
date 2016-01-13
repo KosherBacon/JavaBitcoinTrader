@@ -79,6 +79,7 @@ public class MainTrader {
         c.connect();
 
         BitfinexTrader bitfinexTrader = BitfinexTrader.getInstance();
+        bitfinexTrader.runTrader();
 
     }
 

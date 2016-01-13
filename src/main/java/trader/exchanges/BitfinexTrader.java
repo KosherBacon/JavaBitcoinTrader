@@ -49,11 +49,6 @@ import java.util.List;
 public class BitfinexTrader implements TickListener {
 
     /**
-     * Singleton instance of {@link trader.exchanges.BitfinexTrader this}.
-     */
-    private static BitfinexTrader singleton;
-
-    /**
      * The currency pair that {@link trader.exchanges.BitfinexTrader this}
      * trader will be using.
      */
@@ -97,7 +92,18 @@ public class BitfinexTrader implements TickListener {
 
     private static TradingRecord tradingRecord;
 
+    /**
+     * Singleton instance of {@link trader.exchanges.BitfinexTrader this}.
+     */
+    private static final BitfinexTrader INSTANCE = new BitfinexTrader();
+
     private BitfinexTrader() {
+        if(BitfinexTrader.INSTANCE != null) {
+            throw new InstantiationError("Creating of this object is not allowed.");
+        }
+    }
+
+    public void runTrader() {
         try {
             bitfinex = BitfinexUtils.createExchange();
             marketDataService = bitfinex.getPollingMarketDataService();
@@ -121,11 +127,7 @@ public class BitfinexTrader implements TickListener {
      * @return the singleton instance of this
      */
     public static BitfinexTrader getInstance() {
-        if (singleton == null) {
-            singleton = new BitfinexTrader();
-        }
-
-        return singleton;
+        return INSTANCE;
     }
 
     /**
