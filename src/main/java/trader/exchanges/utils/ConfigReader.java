@@ -34,6 +34,9 @@ import org.jooq.lambda.tuple.Tuple2;
  */
 public class ConfigReader {
 
+    /**
+     * The singleton instance of {@code this}.
+     */
     private static ConfigReader self;
 
     private static Config config;
@@ -53,6 +56,7 @@ public class ConfigReader {
         return self;
     }
 
+    @SuppressWarnings("unused")
     public static ConfigReader getInstance(String configName) {
         if (self == null) {
             self = new ConfigReader(configName);

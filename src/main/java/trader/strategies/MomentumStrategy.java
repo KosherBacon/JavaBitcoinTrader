@@ -58,7 +58,8 @@ public class MomentumStrategy extends Strategy {
      *
      * @param series
      * {@link eu.verdelhan.ta4j.TimeSeries TimeSeries} to use when building the {@link eu.verdelhan.ta4j.Strategy Strategy}
-     * @return the rules to build the {@link eu.verdelhan.ta4j.Strategy Strategy}.
+     * @return the rules to build the
+     * {@link eu.verdelhan.ta4j.Strategy Strategy}.
      */
     @Contract("null -> fail")
     private static Tuple2<Rule, Rule> buildStrategy(TimeSeries series) {
@@ -73,16 +74,21 @@ public class MomentumStrategy extends Strategy {
 
         // Aroon indicators
         AroonUpIndicator aroonUpIndicator = new AroonUpIndicator(series, 25);
-        AroonDownIndicator aroonDownIndicator = new AroonDownIndicator(series, 25);
+        AroonDownIndicator aroonDownIndicator = new AroonDownIndicator
+                (series, 25);
 
         RSIIndicator rsi = new RSIIndicator(closePrice, 14);
 
-        Rule entryRule = new OverIndicatorRule(aroonUpIndicator, aroonDownIndicator).and(new CrossedUpIndicatorRule(rsi, Decimal.valueOf(30)));
+        Rule entryRule = new OverIndicatorRule(aroonUpIndicator,
+                aroonDownIndicator).and(new CrossedUpIndicatorRule(rsi,
+                Decimal.valueOf(30)));
 
         // Protect assets on loss
         Rule stopLoss = new StopLossRule(closePrice, Decimal.valueOf(15));
 
-        Rule exitRule = new AndRule(new OverIndicatorRule(aroonDownIndicator, aroonUpIndicator), new CrossedDownIndicatorRule(rsi, Decimal.valueOf(70))).or(stopLoss);
+        Rule exitRule = new AndRule(new OverIndicatorRule(aroonDownIndicator,
+                aroonUpIndicator), new CrossedDownIndicatorRule(rsi, Decimal
+                .valueOf(70))).or(stopLoss);
 
         return new Tuple2<>(entryRule, exitRule);
     }

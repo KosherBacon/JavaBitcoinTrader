@@ -74,7 +74,8 @@ public class BacktestLoader {
             if (csvReader != null) {
                 try {
                     csvReader.close();
-                } catch (IOException ioe) {
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }

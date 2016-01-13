@@ -50,14 +50,17 @@ import java.util.logging.Logger;
 public class MainTrader {
 
 
-    private static final URL LOGBACK_CONF_FILE = MainTrader.class.getClassLoader().getResource("logback-traces.xml");
+    private static final URL LOGBACK_CONF_FILE = MainTrader.class
+            .getClassLoader().getResource("logback-traces.xml");
 
     /**
      * Loads the Logback configuration from a resource file.
-     * Only here to avoid polluting other examples with logs. Could be replaced by a simple logback.xml file in the resource folder.
+     * Only here to avoid polluting other examples with logs. Could be
+     * replaced by a simple logback.xml file in the resource folder.
      */
     private static void loadLoggerConfiguration() {
-        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        LoggerContext context = (LoggerContext) LoggerFactory
+                .getILoggerFactory();
         context.reset();
 
         JoranConfigurator configurator = new JoranConfigurator();
@@ -65,7 +68,8 @@ public class MainTrader {
         try {
             configurator.doConfigure(LOGBACK_CONF_FILE);
         } catch (JoranException je) {
-            Logger.getLogger(MainTrader.class.getName()).log(Level.SEVERE, "Unable to load Logback configuration", je);
+            Logger.getLogger(MainTrader.class.getName()).log(Level.SEVERE,
+                    "Unable to load Logback configuration", je);
         }
     }
 

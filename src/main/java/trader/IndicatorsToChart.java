@@ -49,22 +49,27 @@ public class IndicatorsToChart {
 
     /**
      * Builds a JFreeChart time series from a Ta4j time series and an indicator.
+     *
      * @param tickSeries the ta4j time series
-     * @param indicator the indicator
-     * @param name the name of the chart time series
+     * @param indicator  the indicator
+     * @param name       the name of the chart time series
      * @return the JFreeChart time series
      */
-    private static org.jfree.data.time.TimeSeries buildChartTimeSeries(TimeSeries tickSeries, Indicator<Decimal> indicator, String name) {
-        org.jfree.data.time.TimeSeries chartTimeSeries = new org.jfree.data.time.TimeSeries(name);
+    private static org.jfree.data.time.TimeSeries buildChartTimeSeries
+    (TimeSeries tickSeries, Indicator<Decimal> indicator, String name) {
+        org.jfree.data.time.TimeSeries chartTimeSeries = new org.jfree.data
+                .time.TimeSeries(name);
         for (int i = 0; i < tickSeries.getTickCount(); i++) {
             Tick tick = tickSeries.getTick(i);
-            chartTimeSeries.addOrUpdate(new Day(tick.getEndTime().toDate()), indicator.getValue(i).toDouble());
+            chartTimeSeries.addOrUpdate(new Day(tick.getEndTime().toDate()),
+                    indicator.getValue(i).toDouble());
         }
         return chartTimeSeries;
     }
 
     /**
      * Displays a chart in a frame.
+     *
      * @param chart the chart to be displayed
      */
     private static void displayChart(JFreeChart chart) {
@@ -74,7 +79,8 @@ public class IndicatorsToChart {
         panel.setMouseWheelEnabled(true);
         panel.setPreferredSize(new java.awt.Dimension(500, 270));
         // Application frame
-        ApplicationFrame frame = new ApplicationFrame("BTC/USD with Chande Moving Oscillator");
+        ApplicationFrame frame = new ApplicationFrame("BTC/USD with Chande " +
+                "Moving Oscillator");
         frame.setContentPane(panel);
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
@@ -101,8 +107,10 @@ public class IndicatorsToChart {
          * Building chart dataset
          */
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.addSeries(buildChartTimeSeries(series, closePrice, "BTC/USD - Bitfinex"));
-        dataset.addSeries(buildChartTimeSeries(series, cmoIndicator, "Chande Moving Oscillator"));
+        dataset.addSeries(buildChartTimeSeries(series, closePrice, "BTC/USD -" +
+                " Bitfinex"));
+        dataset.addSeries(buildChartTimeSeries(series, cmoIndicator, "Chande " +
+                "Moving Oscillator"));
 
         /**
          * Creating the chart

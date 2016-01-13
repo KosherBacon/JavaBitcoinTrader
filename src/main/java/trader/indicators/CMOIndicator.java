@@ -32,8 +32,8 @@ import eu.verdelhan.ta4j.indicators.simple.PreviousPriceIndicator;
 
 /**
  * Chande Momentum Oscillator.
- * <p>
- *
+ * <p/>
+ * <p/>
  * Created by Joshua Kahn on 1/7/2016.
  *
  * @author Joshua Kahn
@@ -49,10 +49,12 @@ public class CMOIndicator extends CachedIndicator<Decimal> {
     private final PreviousPriceIndicator previousPriceIndicator;
 
     public CMOIndicator(TimeSeries timeSeries, int timeFrame) {
-        this(new ClosePriceIndicator(timeSeries), timeFrame, new PreviousPriceIndicator(timeSeries));
+        this(new ClosePriceIndicator(timeSeries), timeFrame, new
+                PreviousPriceIndicator(timeSeries));
     }
 
-    public CMOIndicator(Indicator<Decimal> indicator, int timeFrame, PreviousPriceIndicator previousPriceIndicator) {
+    public CMOIndicator(Indicator<Decimal> indicator, int timeFrame,
+                        PreviousPriceIndicator previousPriceIndicator) {
         super(indicator);
         this.indicator = indicator;
         this.timeFrame = timeFrame;
@@ -74,7 +76,8 @@ public class CMOIndicator extends CachedIndicator<Decimal> {
                 sum2 = sum2.plus(d.multipliedBy(NEGATIVE_ONE));
             }
         }
-        return sum1.minus(sum2).dividedBy(sum1.plus(sum2)).multipliedBy(Decimal.HUNDRED);
+        return sum1.minus(sum2).dividedBy(sum1.plus(sum2)).multipliedBy
+                (Decimal.HUNDRED);
     }
 
     @Override

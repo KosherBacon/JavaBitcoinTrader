@@ -98,8 +98,9 @@ public class BitfinexTrader implements TickListener {
     private static final BitfinexTrader INSTANCE = new BitfinexTrader();
 
     private BitfinexTrader() {
-        if(BitfinexTrader.INSTANCE != null) {
-            throw new InstantiationError("Creating of this object is not allowed.");
+        if (BitfinexTrader.INSTANCE != null) {
+            throw new InstantiationError("Creating of this object is not " +
+                    "allowed.");
         }
     }
 

@@ -59,7 +59,7 @@ public class BacktestResult {
 
     public BacktestResult(TimeSeries timeSeries, double
             transactionPercentCost, double transactionFixedCost, Strategy...
-            strategies) {
+                                  strategies) {
         this.backtestRan = false;
         this.timeSeries = timeSeries;
         this.strategies = strategies;
@@ -73,7 +73,7 @@ public class BacktestResult {
 
     public BacktestResult(TimeSeries timeSeries, double
             transactionPercentCost, double transactionFixedCost, Strategy
-            strategy) {
+                                  strategy) {
         this(timeSeries, transactionPercentCost, transactionFixedCost, new
                 Strategy[]{strategy});
     }
