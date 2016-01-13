@@ -185,6 +185,11 @@ public class BitfinexTrader implements TickListener {
         return toOrder;
     }
 
+    /**
+     * A method to actually place the order.
+     *
+     * @param order the order to place.
+     */
     private void placeOrder(MarketOrder order) {
         try {
             bitfinexTradeService.placeMarketOrder(order);
