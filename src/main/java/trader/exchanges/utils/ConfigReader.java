@@ -34,23 +34,28 @@ import org.jooq.lambda.tuple.Tuple2;
  */
 public class ConfigReader {
 
-    /**
-     * The default name of the config file, if not specified.
-     */
-    private final String DEFAULT_CONFIG_FILE;
-
     private static ConfigReader self;
 
     private static Config config;
 
     private ConfigReader() {
-        DEFAULT_CONFIG_FILE = "application.conf";
-        config = ConfigFactory.load();
+        this("application.conf");
+    }
+
+    private ConfigReader(String configName) {
+        config = ConfigFactory.load(configName);
     }
 
     public static ConfigReader getInstance() {
         if (self == null) {
             self = new ConfigReader();
+        }
+        return self;
+    }
+
+    public static ConfigReader getInstance(String configName) {
+        if (self == null) {
+            self = new ConfigReader(configName);
         }
         return self;
     }
