@@ -10,7 +10,8 @@
 .idea/
 
 # Exchange Configuration (for obvious reasons) #
-src/main/resources/my_config.cfg
+src/main/resources/my_config.conf
+src/main/resources/application.conf
 
 # Logs #
 log/
