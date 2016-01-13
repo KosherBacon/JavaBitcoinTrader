@@ -46,19 +46,35 @@ import java.util.*;
  */
 public class BTCETickGenerator extends TimerTask {
 
+    /**
+     * The length of time (in seconds) for each tick.
+     */
     private static final int TICK_LENGTH = 300;
     private static final Period TICK_TIME_PERIOD = Period.seconds(TICK_LENGTH);
 
     private static final Exchange BTCE = ExchangeFactory.INSTANCE
             .createExchange(BTCEExchange.class.getName());
 
+    /**
+     * The time (UNIX time seconds) that
+     * {@link trader.exchanges.BTCETickGenerator this} started.
+     */
     private static long tickStartTime;
+
+    /**
+     * The time (UNIX time seconds) {@code tickStartTime} plus {@code
+     * TICK_LENGTH}.
+     */
     private static long tickEndTime;
 
     private static LinkedHashMap<String, Trade> tradesInBlock;
 
     private static boolean needsNewTick;
 
+    /**
+     * A list of the different classes that implement TickListener which are
+     * listening for new ticks.
+     */
     private static final List<TickListener> LISTENERS = new ArrayList<>();
 
     public BTCETickGenerator() {
