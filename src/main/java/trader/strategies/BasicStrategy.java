@@ -42,7 +42,7 @@ public class BasicStrategy extends Strategy {
     /**
      * The number of ticks needed for the strategy to be fully functional.
      */
-    public static final int TICKS_NEEDED = 300;
+    public static final int TICKS_NEEDED = 225;
 
     /**
      * The number of periods to use for both the crowes and soldiers
@@ -68,7 +68,8 @@ public class BasicStrategy extends Strategy {
      *
      * @param series
      * {@link eu.verdelhan.ta4j.TimeSeries TimeSeries} to use when building the {@link eu.verdelhan.ta4j.Strategy Strategy}
-     * @return the rules to build the {@link eu.verdelhan.ta4j.Strategy Strategy}.
+     * @return the rules to build the
+     * {@link eu.verdelhan.ta4j.Strategy Strategy}.
      */
     @Contract("null -> fail")
     private static Tuple2<Rule, Rule> buildStrategy(TimeSeries series) {
