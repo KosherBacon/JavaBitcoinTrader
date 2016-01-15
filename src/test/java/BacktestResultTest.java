@@ -21,56 +21,56 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import com.typesafe.config.Config;
-import org.jooq.lambda.tuple.Tuple2;
+import eu.verdelhan.ta4j.Strategy;
+import eu.verdelhan.ta4j.TimeSeries;
+import eu.verdelhan.ta4j.TradingRecord;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-import trader.exchanges.utils.ConfigReader;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import trader.exchanges.backtest.BacktestResult;
+import trader.strategies.BasicStrategy;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
 /**
  * Created by jkahn on 1/15/16.
  *
  * @author Joshua Kahn
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ConfigReaderTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(BacktestResult.class)
+public class BacktestResultTest {
 
-    private ConfigReader configReader;
+    private BacktestResult result;
 
     @Mock
-    Config config;
+    BasicStrategy strategy;
+
+    @Mock
+    TimeSeries series;
+
+    @Mock
+    TradingRecord record;
 
     @Before
-    public void setup() {
-        this.configReader = new ConfigReader();
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
+        this.result = spy(new BacktestResult(series, new Strategy[]{strategy}));
+        doNothing().when(result, "setResults");
     }
 
     @Test
-    public void testGetAPIKeys() {
-        when(config.getString("bitfinex.apiKey")).thenReturn("API_KEY");
-        when(config.getString("bitfinex.apiSecretKey"))
-                .thenReturn("API_SECRET_KEY");
-
-        configReader.setConfig(config);
-
-        Tuple2<String, String> apiKeys = configReader.getAPIKeys("bitfinex");
-        String apiKey = apiKeys.v1();
-        String apiSecretKey = apiKeys.v2();
-
-        verify(config).getString("bitfinex.apiKey");
-        verify(config).getString("bitfinex.apiSecretKey");
-
-        assertEquals("API_KEY", apiKey);
-        assertEquals("API_SECRET_KEY", apiSecretKey);
+    public void testTest() {
+        when(series.run(strategy)).thenReturn(record);
+        result.test();
+        verify(series).run(strategy);
     }
 
 }
