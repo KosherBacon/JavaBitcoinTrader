@@ -78,12 +78,12 @@ public class MainTrader {
 
         loadLoggerConfiguration();
 
+        BitfinexTrader bitfinexTrader = BitfinexTrader.getInstance();
+        bitfinexTrader.runTrader();
+
         BitfinexTickGenerator c = new BitfinexTickGenerator(new URI
                 ("wss://api2.bitfinex.com:3000/ws"), new Draft_10());
         c.connect();
-
-        BitfinexTrader bitfinexTrader = BitfinexTrader.getInstance();
-        bitfinexTrader.runTrader();
 
     }
 
