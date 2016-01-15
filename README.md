@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/KosherBacon/JavaBitcoinTrader.svg?branch=master)](https://travis-ci.org/KosherBacon/JavaBitcoinTrader)
+
 # JavaBitcoinTrader
 
 This is a project to buy and sell Bitcoin against other currencies on various exchanges.
