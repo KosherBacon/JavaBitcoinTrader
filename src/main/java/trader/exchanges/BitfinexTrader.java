@@ -95,13 +95,14 @@ public class BitfinexTrader implements TickListener {
     /**
      * Singleton instance of {@link trader.exchanges.BitfinexTrader this}.
      */
-    private static final BitfinexTrader INSTANCE = new BitfinexTrader();
+    private static BitfinexTrader INSTANCE;
 
-    private BitfinexTrader() {
+    public BitfinexTrader() {
         if (BitfinexTrader.INSTANCE != null) {
             throw new InstantiationError("Creating of this object is not " +
                     "allowed.");
         }
+        INSTANCE = this;
     }
 
     public void runTrader() {
@@ -128,6 +129,9 @@ public class BitfinexTrader implements TickListener {
      * @return the singleton instance of this
      */
     public static BitfinexTrader getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BitfinexTrader();
+        }
         return INSTANCE;
     }
 
