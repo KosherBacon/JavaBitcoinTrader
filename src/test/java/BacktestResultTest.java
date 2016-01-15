@@ -34,6 +34,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import trader.exchanges.backtest.BacktestResult;
 import trader.strategies.BasicStrategy;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -70,7 +71,7 @@ public class BacktestResultTest {
     public void testTest() {
         when(series.run(strategy)).thenReturn(record);
         result.test();
-        verify(series).run(strategy);
+        verify(series, times(1)).run(strategy);
     }
 
 }
