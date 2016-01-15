@@ -21,38 +21,47 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package trader.exchanges.utils;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
+import com.typesafe.config.Config;
 import org.jooq.lambda.tuple.Tuple2;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import trader.exchanges.utils.ConfigReader;
 
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
- * Created by jkahn on 12/25/15.
+ * Created by jkahn on 1/15/16.
  *
  * @author Joshua Kahn
  */
-public class BitfinexUtils {
+@RunWith(MockitoJUnitRunner.class)
+public class ConfigReaderTest {
 
-    public static Exchange createExchange() throws IOException {
-        Exchange bfx = ExchangeFactory.INSTANCE.createExchange
-                (BitfinexExchange.class.getName());
+    @Mock
+    Config config;
 
-        ExchangeSpecification bfxSpec = bfx.getDefaultExchangeSpecification();
+    @InjectMocks
+    ConfigReader configReader = new ConfigReader();
 
-        Tuple2<String, String> apiPair = new ConfigReader()
-                .getAPIKeys("bitfinex");
+    @Test
+    public void testGetAPIKeys() {
+        when(config.getString("bitfinex.apiKey")).thenReturn("API_KEY");
+        when(config.getString("bitfinex.apiSecretKey"))
+                .thenReturn("API_SECRET_KEY");
+        configReader.setConfig(config);
+        Tuple2<String, String> apiKeys = configReader.getAPIKeys("bitfinex");
+        String apiKey = apiKeys.v1();
+        String apiSecretKey = apiKeys.v2();
+        verify(config).getString("bitfinex.apiKey");
+        verify(config).getString("bitfinex.apiSecretKey");
 
-        bfxSpec.setApiKey(apiPair.v1());
-        bfxSpec.setSecretKey(apiPair.v2());
-
-        bfx.applySpecification(bfxSpec);
-
-        return bfx;
+        assertEquals("API_KEY", apiKey);
+        assertEquals("API_SECRET_KEY", apiSecretKey);
     }
 
 }

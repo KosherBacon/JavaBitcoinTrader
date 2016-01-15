@@ -34,34 +34,19 @@ import org.jooq.lambda.tuple.Tuple2;
  */
 public class ConfigReader {
 
-    /**
-     * The singleton instance of {@code this}.
-     */
-    private static ConfigReader self;
+    private Config config;
 
-    private static Config config;
-
-    private ConfigReader() {
+    public ConfigReader() {
         this("application.conf");
     }
 
-    private ConfigReader(String configName) {
-        config = ConfigFactory.load(configName);
+    public ConfigReader(String configName) {
+        this.config = ConfigFactory.load(configName);
     }
 
-    public static ConfigReader getInstance() {
-        if (self == null) {
-            self = new ConfigReader();
-        }
-        return self;
-    }
 
-    @SuppressWarnings("unused")
-    public static ConfigReader getInstance(String configName) {
-        if (self == null) {
-            self = new ConfigReader(configName);
-        }
-        return self;
+    public void setConfig(Config config) {
+        this.config = config;
     }
 
     public Tuple2<String, String> getAPIKeys(String exchange) {
