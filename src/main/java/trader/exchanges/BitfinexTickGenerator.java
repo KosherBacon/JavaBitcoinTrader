@@ -33,7 +33,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.web.client.RestTemplate;
 import trader.TickListener;
+import trader.strategies.BasicStrategy;
 
 import javax.net.ssl.SSLContext;
 import java.net.URI;
@@ -52,7 +55,7 @@ public class BitfinexTickGenerator extends WebSocketClient {
     /**
      * The length of time (in seconds) for each tick.
      */
-    private static final int TICK_LENGTH = 60;
+    private static final int TICK_LENGTH = 300;
     private static final Period TICK_TIME_PERIOD = Period.seconds(TICK_LENGTH);
 
     /**
@@ -104,6 +107,54 @@ public class BitfinexTickGenerator extends WebSocketClient {
         TickUpdateTask task = new TickUpdateTask();
         Timer timer = new Timer();
         timer.schedule(task, 0, TICK_LENGTH * 1000L);
+
+        getOldTrades();
+    }
+
+    private static void getOldTrades() {
+        long historyStartTime = tickStartTime - (2 * TICK_LENGTH *
+                BasicStrategy.TICKS_NEEDED);
+        long historyEndTime = historyStartTime + TICK_LENGTH;
+        final String uri = "https://api.bitfinex" +
+                ".com/v1/trades/btcusd?timestamp=" + Long.toString
+                (historyStartTime);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
+        Tick tick = new Tick(TICK_TIME_PERIOD, new DateTime(historyEndTime *
+                1000));
+
+        try {
+            JSONArray tradeArray = new JSONArray(result);
+            for (int i = tradeArray.length() - 1; i >= 0; i--) {
+                JSONObject trade = tradeArray.getJSONObject(i);
+                long tradeTimestamp = trade.getLong("timestamp");
+                double amount = trade.getDouble("amount");
+                double price = trade.getDouble("price");
+                if (tradeTimestamp >= historyStartTime && tradeTimestamp <
+                        historyEndTime) {
+                    tick.addTrade(amount, price);
+                } else {
+                    if (tickStartTime <= tradeTimestamp) {
+                        break;
+                    }
+                    tickToFire = tick;
+                    fireNewTickEvent();
+                    long diff = tradeTimestamp - historyEndTime;
+                    long periods = (diff / TICK_LENGTH) + 1;
+                    historyStartTime += periods * TICK_LENGTH;
+                    historyEndTime = historyStartTime + TICK_LENGTH;
+                    tick = new Tick(TICK_TIME_PERIOD, new DateTime
+                            (historyEndTime * 1000));
+                    tick.addTrade(amount, price);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        tickToFire = new Tick(TICK_TIME_PERIOD, new DateTime(tickEndTime *
+                1000));
     }
 
     @Contract("null -> fail")
@@ -115,6 +166,7 @@ public class BitfinexTickGenerator extends WebSocketClient {
     }
 
     @Contract("null -> fail")
+    @SuppressWarnings("unused")
     public synchronized static void removeListener(TickListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException("Listener cannot be null.");
