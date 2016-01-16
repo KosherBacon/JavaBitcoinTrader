@@ -25,6 +25,7 @@ import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,15 +38,18 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import trader.exchanges.BitfinexTrader;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.support.SuppressCode.suppressConstructor;
 import static org.powermock.reflect.Whitebox.invokeMethod;
 
 /**
@@ -62,6 +66,9 @@ public class BitfinexTraderTest {
 
     @Mock
     BitfinexTradeService bitfinexTradeService;
+
+    @Mock
+    MarketOrder mktOrder;
 
     private OpenOrders openOrders;
 
@@ -92,6 +99,21 @@ public class BitfinexTraderTest {
         assertTrue(status);
 
         verify(bitfinexTradeService, times(1)).cancelOrder(orderID);
+        trader.stopTrader();
+    }
+
+    @Test
+    public void placeOrderTest() throws Exception {
+        when(bitfinexTradeService.placeMarketOrder(mktOrder)).thenReturn(orderID);
+
+        Field field = PowerMockito.field(BitfinexTrader.class,
+                "bitfinexTradeService");
+        field.set(BitfinexTrader.class, bitfinexTradeService);
+
+        invokeMethod(trader, "placeOrder", mktOrder);
+        verify(bitfinexTradeService, times(1)).placeMarketOrder(mktOrder);
+
+        trader.stopTrader();
     }
 
 }

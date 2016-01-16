@@ -122,6 +122,11 @@ public class BitfinexTrader implements TickListener {
         BitfinexTickGenerator.addListener(this);
     }
 
+    public void stopTrader() {
+        INSTANCE = null;
+        BitfinexTickGenerator.removeListener(this);
+    }
+
     /**
      * Gets the singleton instance of this. If this doesn't exist, create a
      * new instance and return it.
