@@ -48,7 +48,7 @@ public class MomentumStrategy extends Strategy {
         this(buildStrategy(series));
     }
 
-    private MomentumStrategy(Tuple2<Rule, Rule> rules) {
+    public MomentumStrategy(Tuple2<Rule, Rule> rules) {
         super(rules.v1(), rules.v2());
     }
 
