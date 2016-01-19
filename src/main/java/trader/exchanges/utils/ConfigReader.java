@@ -44,7 +44,6 @@ public class ConfigReader {
         this.config = ConfigFactory.load(configName);
     }
 
-
     public void setConfig(Config config) {
         this.config = config;
     }
@@ -54,7 +53,7 @@ public class ConfigReader {
         exchange = exchange.toLowerCase();
         if (exchange.equals("btce") || exchange.equals("btc-e")) {
             return new Tuple2<>(config.getString("btce.apiKey"), config
-                    .getString("bitfinex.apiSecretKey"));
+                    .getString("btce.apiSecretKey"));
         } else if (exchange.equals("bitfinex")) {
             return new Tuple2<>(config.getString("bitfinex.apiKey"), config
                     .getString("bitfinex.apiSecretKey"));

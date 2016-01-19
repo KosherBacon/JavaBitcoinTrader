@@ -52,12 +52,12 @@ public class ConfigReaderTest {
 
     @Before
     public void setup() {
-        this.configReader = new ConfigReader();
         MockitoAnnotations.initMocks(this);
+        this.configReader = new ConfigReader();
     }
 
     @Test
-    public void testGetAPIKeys() {
+    public void testGetAPIKeysBitfinex() {
         when(config.getString("bitfinex.apiKey")).thenReturn("API_KEY");
         when(config.getString("bitfinex.apiSecretKey"))
                 .thenReturn("API_SECRET_KEY");
@@ -70,6 +70,27 @@ public class ConfigReaderTest {
 
         verify(config).getString("bitfinex.apiKey");
         verify(config).getString("bitfinex.apiSecretKey");
+
+        verify(config, times(2)).getString(anyString());
+
+        assertEquals("API_KEY", apiKey);
+        assertEquals("API_SECRET_KEY", apiSecretKey);
+    }
+
+    @Test
+    public void testGetAPIKeysBTC_E() {
+        when(config.getString("btce.apiKey")).thenReturn("API_KEY");
+        when(config.getString("btce.apiSecretKey"))
+                .thenReturn("API_SECRET_KEY");
+
+        configReader.setConfig(config);
+
+        Tuple2<String, String> apiKeys = configReader.getAPIKeys("BTC-E");
+        String apiKey = apiKeys.v1();
+        String apiSecretKey = apiKeys.v2();
+
+        verify(config).getString("btce.apiKey");
+        verify(config).getString("btce.apiSecretKey");
 
         verify(config, times(2)).getString(anyString());
 
