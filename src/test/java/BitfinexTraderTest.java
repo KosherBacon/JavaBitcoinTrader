@@ -57,7 +57,7 @@ import static org.powermock.reflect.Whitebox.invokeMethod;
 @PrepareForTest(BitfinexTrader.class)
 public class BitfinexTraderTest {
 
-    private BitfinexTrader trader = BitfinexTrader.getInstance();
+    private final BitfinexTrader trader = BitfinexTrader.getInstance();
 
     @Mock
     BitfinexTradeService bitfinexTradeService;
@@ -98,7 +98,8 @@ public class BitfinexTraderTest {
 
     @Test
     public void placeOrderTest() throws Exception {
-        when(bitfinexTradeService.placeMarketOrder(mktOrder)).thenReturn(orderID);
+        when(bitfinexTradeService.placeMarketOrder(mktOrder))
+                .thenReturn(orderID);
 
         Field field = PowerMockito.field(BitfinexTrader.class,
                 "bitfinexTradeService");
