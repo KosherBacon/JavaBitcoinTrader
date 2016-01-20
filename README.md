@@ -12,9 +12,9 @@ Strategies can be found inside the ```trader.strategies``` package. Presently, t
 
 ## Configuration
 
-In the project folders, create a file titled application.conf. This is the file that will be read to get your api keys.
+In the project folders, create a file titled `application.conf`. This is the file that will be read to get your api keys.
 
-For example, to setup the Bitfinex exchange, add the following to your application.conf:
+For example, to setup the Bitfinex exchange, add the following to your `application.conf`:
 
 ```
 bitfinex {
