@@ -40,10 +40,16 @@ import eu.verdelhan.ta4j.indicators.simple.PreviousPriceIndicator;
  */
 public class CMOIndicator extends CachedIndicator<Decimal> {
 
+    /**
+     * A constant to store the value -1.
+     */
     private static final Decimal NEGATIVE_ONE = Decimal.valueOf(-1);
 
     private final Indicator<Decimal> indicator;
 
+    /**
+     * The number of periods to run the indicator.
+     */
     private final int timeFrame;
 
     private final PreviousPriceIndicator previousPriceIndicator;
