@@ -66,10 +66,12 @@ public class MainTrader {
         JoranConfigurator configurator = new JoranConfigurator();
         configurator.setContext(context);
         try {
-            configurator.doConfigure(LOGBACK_CONF_FILE);
-        } catch (JoranException je) {
+            if (LOGBACK_CONF_FILE != null) {
+                configurator.doConfigure(LOGBACK_CONF_FILE);
+            }
+        } catch (JoranException e) {
             Logger.getLogger(MainTrader.class.getName()).log(Level.SEVERE,
-                    "Unable to load Logback configuration", je);
+                    "Unable to load Logback configuration", e);
         }
     }
 
