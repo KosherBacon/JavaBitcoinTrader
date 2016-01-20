@@ -16,7 +16,7 @@ In the project folders, create a file titled application.conf. This is the file 
 
 For example, to setup the Bitfinex exchange, add the following to your application.conf:
 
-```json
+```
 bitfinex {
     apiKey=API_KEY
     apiSecretKey=API_SECRET_KEY
