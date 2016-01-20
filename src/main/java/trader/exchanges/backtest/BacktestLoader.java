@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  */
 public class BacktestLoader {
 
-    private static final int SECONDS_PER_TICK = 300;
+    private static final int SECONDS_PER_TICK = 60;
 
     public static TimeSeries loadSeries(String fileName) {
 
@@ -67,9 +67,9 @@ public class BacktestLoader {
              */
             lines = csvReader.readAll();
             lines.remove(0); // Removing header line
-        } catch (IOException ioe) {
+        } catch (IOException e) {
             Logger.getLogger(BacktestLoader.class.getName()).log(Level
-                    .SEVERE, "Unable to load trades from CSV", ioe);
+                    .SEVERE, "Unable to load trades from CSV", e);
         } finally {
             if (csvReader != null) {
                 try {
