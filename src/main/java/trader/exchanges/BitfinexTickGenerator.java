@@ -27,6 +27,7 @@ import eu.verdelhan.ta4j.Tick;
 import org.java_websocket.client.DefaultSSLWebSocketClientFactory;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
+import org.java_websocket.drafts.Draft_10;
 import org.java_websocket.handshake.ServerHandshake;
 import org.jetbrains.annotations.Contract;
 import org.joda.time.DateTime;
@@ -40,6 +41,7 @@ import trader.strategies.BasicStrategy;
 
 import javax.net.ssl.SSLContext;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -55,7 +57,7 @@ public class BitfinexTickGenerator extends WebSocketClient {
     /**
      * The length of time (in seconds) for each tick.
      */
-    private static final int TICK_LENGTH = 300;
+    private static final int TICK_LENGTH = 120;
     private static final Period TICK_TIME_PERIOD = Period.seconds(TICK_LENGTH);
 
     /**
@@ -81,14 +83,19 @@ public class BitfinexTickGenerator extends WebSocketClient {
      */
     private static long tickEndTime;
 
+    @SuppressWarnings("unused")
+    public BitfinexTickGenerator() throws URISyntaxException {
+        this(new URI("wss://api2.bitfinex.com:3000/ws"), new Draft_10());
+    }
+
     public BitfinexTickGenerator(URI serverUri, Draft draft) {
         super(serverUri, draft);
 
         // Force the connection to use SSL
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, null, null); // will use java's default key
-            // and trust store which is sufficient unless you deal with
+            sslContext.init(null, null, null); // will use java's default
+            // key and trust store which is sufficient unless you deal with
             // self-signed certificates
             this.setWebSocketFactory(new DefaultSSLWebSocketClientFactory
                     (sslContext));
@@ -232,7 +239,6 @@ public class BitfinexTickGenerator extends WebSocketClient {
 
     @Override
     public void onClose(int i, String s, boolean b) {
-
     }
 
     @Override
